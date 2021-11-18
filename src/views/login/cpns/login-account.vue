@@ -1,58 +1,60 @@
 <template>
   <div class="login-account">
-    <el-form label-width="60px" :rules="rules" :model="account">
+    <el-form label-width="60px" :rules="rules" :model="account" ref="formRef">
       <el-form-item label="账号" prop="name">
         <el-input v-model="account.name" />
       </el-form-item>
 
       <el-form-item label="密码" prop="password">
-        <el-input v-model="account.password" />
+        <el-input v-model="account.password" show-password />
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
+import { rules } from '@/views/login/config/account-config'
+import { ElForm } from 'element-plus'
+import { useStore } from 'vuex'
+import LocalCache from '@/utils/cache'
 
 export default defineComponent({
   setup() {
+    const store = useStore()
+
     const account = reactive({
-      name: '',
-      password: ''
+      name: LocalCache.getCache('name') ?? '',
+      password: LocalCache.getCache('password') ?? ''
     })
 
-    // 编写好规则
-    const rules = {
-      name: [
-        {
-          required: true,
-          message: '用户名字是必传的',
-          trigger: 'blur' //什么时候触发 blur:失去焦点触发
-        },
-        {
-          pattern: /^[a-z0-9]{5,10}$/, //正则规范
-          message: '用户名必须是5-10个字母或数字',
-          trigger: 'blur' //什么时候触发 blur:失去焦点触发
+    const formRef = ref<InstanceType<typeof ElForm>>()
+
+    const loginAction = (isKeepPassword: boolean) => {
+      formRef.value?.validate((isValid) => {
+        //validate验证通过返回ture 否则返回false
+        if (isValid) {
+          //1. 判断是否记住密码
+          if (isKeepPassword) {
+            // 本地缓存
+            LocalCache.setCache('name', account.name)
+            LocalCache.setCache('password', account.password)
+          } else {
+            LocalCache.deleteCache('name')
+            LocalCache.deleteCache('password')
+          }
+
+          //2. 开始进行验证
+          store.dispatch('login/accountLoginAction', { ...account })
         }
-      ],
-      password: [
-        {
-          required: true,
-          message: '密码是必传的',
-          trigger: 'blur' //什么时候触发 blur:失去焦点触发
-        },
-        {
-          pattern: /^[a-z0-9]{3,}$/,
-          message: '用户名必须是3位以上的字母或数字',
-          trigger: 'blur'
-        }
-      ]
+      })
     }
 
     return {
       account,
-      rules
+      rules,
+      loginAction,
+      formRef
     }
   }
 })

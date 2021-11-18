@@ -13,10 +13,15 @@
   "dependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
     "@element-plus/icons": "^0.0.11",
+    "@types/node": "^16.11.7",
+    "@types/react": "^17.0.34",
     "axios": "^0.24.0",
     "core-js": "^3.19.1",
     "element-plus": "^1.2.0-beta.1",
+    "install": "^0.13.0",
+    "module": "^1.2.5",
     "normalize.css": "^8.0.1",
+    "perf_hooks": "0.0.1",
     "unplugin-vue-components": "^0.17.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.12",
@@ -47,7 +52,7 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "prettier": "^2.4.1",
-    "typescript": "~4.1.5"
+    "typescript": "^4.1.6"
   },
   "config": {
     "commitizen": {
