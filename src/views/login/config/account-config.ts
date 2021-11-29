@@ -2,9 +2,9 @@
 export const rules = {
   name: [
     {
-      required: true,
+      required: true, // 必传的
       message: '用户名字是必传的',
-      trigger: 'blur' //什么时候触发 blur:失去焦点触发
+      trigger: 'blur' //什么时候触发 blur:失去焦点触发 change:只要修改就触发
     },
     {
       pattern: /^[a-z0-9]{5,10}$/, //正则规范

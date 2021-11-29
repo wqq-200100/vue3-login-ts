@@ -14,10 +14,40 @@ import {
   ElInput,
   ElCheckbox,
   ElLink,
-  ElRow
+  ElRow,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItemGroup,
+  ElMenuItem
 } from 'element-plus'
 
-const components = [ElButton, ElTable, ElBacktop, ElTabPane, ElTabs, ElForm, ElFormItem, ElIcon, ElRadio, ElInput, ElCheckbox, ElLink, ElRow]
+const components = [
+  ElButton,
+  ElTable,
+  ElBacktop,
+  ElTabPane,
+  ElTabs,
+  ElForm,
+  ElFormItem,
+  ElIcon,
+  ElRadio,
+  ElInput,
+  ElCheckbox,
+  ElLink,
+  ElRow,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItemGroup,
+  ElMenuItem
+]
 
 export default function (app: App): void {
   for (const component of components) {

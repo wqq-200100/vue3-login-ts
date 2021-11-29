@@ -12,43 +12,14 @@ import './service/axios-demo'
 import router from './router'
 import store from './store'
 import wqRequest from '@/service'
+import { setupStore } from '@/store'
+
+require('../mock')
 
 const app = createApp(App)
-// globalRegister(app)
+// 注册element-plus/其他 globalRegister(app)
 app.use(globalRegister)
 app.use(router)
 app.use(store)
+setupStore()
 app.mount('#app')
-
-// wqRequest.request({
-//   url: 'home/multidate',
-//   method: 'GET',
-//   interceptors: {
-//     requestInterceptor: (config) => {
-//       console.log('单独请求的config')
-//       return config
-//     },
-//     responseInterceptor: (res) => {
-//       console.log('单独响应的response')
-//       return res
-//     }
-//   }
-// })
-
-// interface DataType {
-//   data: any
-//   returnCode: string
-//   success: boolean
-// }
-
-// wqRequest
-//   .request<DataType>({
-//     url: 'home/multidate',
-//     method: 'GET',
-//     showLoading: false
-//   })
-//   .then((res) => {
-//     console.log(res.data)
-//     console.log(res.returnCode)
-//     console.log(res.success)
-//   })

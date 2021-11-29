@@ -1,5 +1,7 @@
 # http://editorconfig.org
 
+// 有助于为不同 IDE 编辑器上处理同一项目的多个开发人员维护一致的编码风格。
+
 root = true
 
 [*] # 表示所有文件适用

@@ -15,7 +15,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { rules } from '@/views/login/config/account-config'
-import { ElForm } from 'element-plus'
+import { ElForm } from 'element-plus' // 不是局部注册，是为了拿类型
 import { useStore } from 'vuex'
 import LocalCache from '@/utils/cache'
 
@@ -30,6 +30,7 @@ export default defineComponent({
 
     const formRef = ref<InstanceType<typeof ElForm>>()
 
+    // 登陆操作
     const loginAction = (isKeepPassword: boolean) => {
       formRef.value?.validate((isValid) => {
         //validate验证通过返回ture 否则返回false

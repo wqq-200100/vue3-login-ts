@@ -6,13 +6,14 @@ import type { WQRequestInterface, WQRequestConfig } from './type'
 const DEFAULT_LOADING = true
 
 class WQRequest {
-  instance: AxiosInstance
+  instance: AxiosInstance // 实例
   interceptors?: WQRequestInterface
   loading?: ILoadingInstance
   showLoading: boolean
 
+  // constructor：类的构造器，传入基本的配置
   constructor(config: WQRequestConfig) {
-    // 创建axios实例对象
+    // 创建axios实例对象，保存到instance
     this.instance = axios.create(config)
     // 保存基本信息
     this.interceptors = config.interceptors
@@ -20,7 +21,6 @@ class WQRequest {
 
     // 使用拦截器
     // 1.从config中取出的拦截器是对应的实例的拦截器
-
     this.instance.interceptors.request.use(
       this.interceptors?.requestInterceptor,
       this.interceptors?.requestInterceptorsCatch
@@ -33,7 +33,6 @@ class WQRequest {
     // 添加所有实例的拦截器
     this.instance.interceptors.request.use(
       (res) => {
-        console.log('给所有实例添加拦截器1,请求成功')
         // 将loading移除
         this.loading?.close()
 
@@ -47,7 +46,6 @@ class WQRequest {
         return res
       },
       (error) => {
-        console.log('给所有实例添加拦截器1,请求失败')
         // 将loading移除
         this.loading?.close()
         return error
@@ -56,7 +54,6 @@ class WQRequest {
 
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('给所有实例添加拦截器1,响应成功')
         const data = res.data
         if (data.returnCode === '-1001') {
           console.log('请求失败~, 错误信息')
@@ -65,7 +62,6 @@ class WQRequest {
         }
       },
       (error) => {
-        console.log('给所有实例添加拦截器1,响应失败')
         // 例子: 判断不同的HttpErrorCode显示不同的错误信息
         if (error.response.status === 404) {
           console.log('错误信息404')
@@ -77,8 +73,9 @@ class WQRequest {
 
   request<T>(config: WQRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
-      //1. 单个请求对请求config的处理
+      //1. 单独的请求对请求config的处理
       if (config.interceptors?.requestInterceptor) {
+        // 对config进行转化再返回出去
         config = config.interceptors.requestInterceptor(config)
       }
 
@@ -90,9 +87,10 @@ class WQRequest {
       this.instance
         .request<any, T>(config)
         .then((res) => {
-          //1. 单个请求对数据的处理
+          //1. 单独的请求对数据的处理
           if (config.interceptors?.responseInterceptor) {
-            config = config.interceptors.responseInterceptor(res)
+            // 对结果进行转化再赋值给res
+            res = config.interceptors.responseInterceptor(res)
           }
 
           //2. 将showLoading设置为ture,这样不会影响下一个请求

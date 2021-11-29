@@ -1,3 +1,4 @@
+// 封装一个工具
 class LocalCache {
   // 保存缓存
   setCache(key: string, value: any) {
@@ -13,7 +14,7 @@ class LocalCache {
     }
   }
 
-  // 删除缓存
+  // 删除某一个缓存
   deleteCache(key: string) {
     window.localStorage.removeItem(key)
   }
